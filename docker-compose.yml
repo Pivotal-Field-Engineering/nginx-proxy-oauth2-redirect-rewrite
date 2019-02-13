@@ -1,24 +1,22 @@
 version: "3"
 services:
   curl:
-    environment:
-      PROXY_HOST: http://proxy
     image: byrnedo/alpine-curl
     command: cat
     networks:
       - compose
-  proxy:
+  pass:
     image: nginx
     volumes:
-      - "${PWD:-.}/nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "${PWD:-.}/pass.conf:/etc/nginx/nginx.conf:ro"
     networks:
       - compose
     depends_on:
-      - response
-  response:
+      - auth
+  auth:
     image: nginx
     volumes:
-      - "${PWD:-.}/redirect.conf:/etc/nginx/nginx.conf:ro"
+      - "${PWD:-.}/auth.conf:/etc/nginx/nginx.conf:ro"
     networks:
       - compose
 networks:
