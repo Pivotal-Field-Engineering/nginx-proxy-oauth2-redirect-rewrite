@@ -11,8 +11,6 @@ services:
       - "${PWD:-.}/pass.conf:/etc/nginx/nginx.conf:ro"
     networks:
       - compose
-    depends_on:
-      - auth
   auth:
     image: nginx
     volumes:
