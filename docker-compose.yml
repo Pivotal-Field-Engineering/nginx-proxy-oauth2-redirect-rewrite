@@ -1,0 +1,25 @@
+version: "3"
+services:
+  curl:
+    environment:
+      PROXY_HOST: http://proxy
+    image: byrnedo/alpine-curl
+    command: cat
+    networks:
+      - compose
+  proxy:
+    image: nginx
+    volumes:
+      - "${PWD:-.}/nginx.conf:/etc/nginx/nginx.conf:ro"
+    networks:
+      - compose
+    depends_on:
+      - response
+  response:
+    image: nginx
+    volumes:
+      - "${PWD:-.}/redirect.conf:/etc/nginx/nginx.conf:ro"
+    networks:
+      - compose
+networks:
+  compose:
